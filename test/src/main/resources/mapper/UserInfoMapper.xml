@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxq.demo.dao.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.hxq.demo.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_id" jdbcType="VARCHAR" property="roleId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="create_time" jdbcType="DATE" property="createTime"/>
+    </resultMap>
+    <resultMap id="RoleMap" type="com.hxq.demo.entity.RoleV2">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <association property="user" javaType="com.hxq.demo.entity.User" resultMap="BaseResultMap"/>
+    </resultMap>
+    <resultMap id="RoleMapV2" type="com.hxq.demo.entity.RoleV2">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="role_name" jdbcType="VARCHAR" property="roleName"/>
+        <collection property="user" javaType="com.hxq.demo.entity.User" resultMap="BaseResultMap"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,role_id,user_name,create_time
+    </sql>
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        <where>
+            id = #{id,jdbcType=VARCHAR}
+        </where>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+    </select>
+    <select id="selectRoleInfo" resultMap="RoleMap" parameterType="Integer">
+        select a.id,a.role_id,a.user_name,a.create_time,b.role_name
+        from user a,role b
+        where a.role_id = b.id
+    </select>
+    <select id="selectRoleInfoAll" resultMap="RoleMapV2" parameterType="Integer">
+        select a.id,a.role_id,a.user_name,a.create_time,b.role_name
+        from user a,role b
+        where a.role_id = b.id and a.role_id=#{id}
+    </select>
+    <insert id="save" parameterType="com.hxq.demo.entity.User">
+        insert into user (role_id,user_name,create_time) values(#{roleId},#{userName},#{createTime})
+    </insert>
+    <insert id="saveRole" parameterType="com.hxq.demo.entity.Role">
+        insert into role (role_name) values(#{roleName})
+    </insert>
+
+</mapper>
