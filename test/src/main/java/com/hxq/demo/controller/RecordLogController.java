@@ -10,6 +10,7 @@ import com.hxq.demo.util.RecordLogFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -89,11 +90,11 @@ public class RecordLogController {
         log.info("测试postConstruct注解");
     }
 
-    @PostMapping("/testTransaction")
+    @GetMapping("/testTransaction")
     @ResponseBody
     public String testTransaction(){
-        userService.initUserInfo();
-        return "11";
+        //userService.initUserInfo();
+        return "Hello Jenkins";
     }
 
 }
