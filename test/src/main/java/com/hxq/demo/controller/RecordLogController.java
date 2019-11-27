@@ -1,9 +1,11 @@
 package com.hxq.demo.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.google.common.base.Stopwatch;
 import com.hxq.demo.dao.UserDao;
 import com.hxq.demo.dao.UserInfoMapper;
 import com.hxq.demo.entity.*;
+import com.hxq.demo.service.CacheUserTest;
 import com.hxq.demo.service.LogRecordService;
 import com.hxq.demo.service.UserService;
 import com.hxq.demo.util.RecordLogFactory;
@@ -36,6 +38,8 @@ public class RecordLogController {
     private UserInfoMapper userInfoMapper;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CacheUserTest cacheUserTest;
 
     @PostMapping("/addLoginAccount")
     public void addLoginAccount(int userID,String type){
@@ -96,5 +100,41 @@ public class RecordLogController {
         //userService.initUserInfo();
         return "Hello Jenkins";
     }
+
+    @PostMapping("getUserInfos")
+    @ResponseBody
+    public User getUserInfos(int id){
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        User userInfo = cacheUserTest.getUserInfo(id);
+        log.info("耗时{}",stopwatch.stop());
+        return userInfo;
+
+    }
+
+    @PostMapping("deleteUserInfo")
+    @ResponseBody
+    public int updateUserInfo(@RequestBody User user){
+        return cacheUserTest.updateUserInfo(user);
+    }
+
+    @PostMapping("reloadUserInfo")
+    @ResponseBody
+    public int updateUserInfos(@RequestBody User user){
+        return cacheUserTest.updateUserInfos(user);
+    }
+
+    @PostMapping("getUserInfoV2")
+    @ResponseBody
+    public User updateUserInfoV2(int id){
+        return cacheUserTest.getUserInfoV2(id);
+    }
+
+    @PostMapping("reloadUserInfoV2")
+    @ResponseBody
+    public int updateUserInfosV2(@RequestBody User user){
+        cacheUserTest.updateUserInfosV2(user);
+        return 1;
+    }
+
 
 }

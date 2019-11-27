@@ -4,12 +4,8 @@ import com.hxq.demo.entity.Role;
 import com.hxq.demo.entity.RoleV2;
 import com.hxq.demo.entity.User;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,5 +25,8 @@ public interface UserInfoMapper {
      void save(User user);
 
      void saveRole(Role role);
+
+     int updateUserInfo(User user);
+
 
 }

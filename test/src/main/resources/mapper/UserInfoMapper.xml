@@ -50,5 +50,8 @@
     <insert id="saveRole" parameterType="com.hxq.demo.entity.Role">
         insert into role (role_name) values(#{roleName})
     </insert>
+    <update id="updateUserInfo" parameterType="com.hxq.demo.entity.User">
+        update user set user_name=#{userName},role_id=#{roleId} where id = #{id}
+    </update>
 
 </mapper>

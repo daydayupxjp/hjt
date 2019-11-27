@@ -3,6 +3,7 @@ package com.hxq.demo.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,7 +16,9 @@ import java.util.Date;
 @Table(name = "user")
 @Entity
 @Data
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 4019786220570996660L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
